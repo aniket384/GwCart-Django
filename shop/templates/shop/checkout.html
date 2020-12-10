@@ -1,0 +1,282 @@
+{% extends 'shop/basic.html' %}
+{% load static %}
+{% block title %} Check Out - GwlCart - Shop what you want! {% endblock %}
+{% block body %}
+<section id="cart_items">
+	<div class="container">
+
+		<div class="breadcrumbs">
+			<ol class="breadcrumb">
+				<li>
+					<a href="/">Home</a>
+				</li>
+				<li class="active">Check out</li>
+			</ol>
+		</div><!--/breadcrums-->
+
+		<div class="step-one">
+			<h2 class="heading">Step 1</h2>
+		</div>
+
+		<div class="register-req">
+			<p>GwCart Express Checkout, Review Your Order.....</p>
+		</div><!--/register-req-->
+
+		<div class="table-responsive cart_info">
+			<table class="table table-condensed" id="items">
+				<thead>
+				<tr class="cart_menu">
+					<td class="image">Item</td>
+					<td class="quantity">Quantity</td>
+					<td></td>
+				</tr>
+				</thead>
+
+				<tbody>
+
+				</tbody>
+
+			</table>
+		</div>
+		<div class="payment-options">
+
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+				<label class="form-check-label" for="inlineRadio1"> Cash on Delivery (COD) </label>
+			</div>
+
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+				<label class="form-check-label" for="inlineRadio2"> NetBanking </label>
+			</div>
+
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+				<label class="form-check-label" for="inlineRadio3"> Debit Card / Credit Card / UPI's / Wallet </label>
+			</div>
+
+		</div>
+
+		<div class="step-one">
+			<h2 class="heading">Step 2</h2>
+		</div>
+
+		<div class="register-req">
+			<p>Enter Your Shipping Details.....</p>
+		</div><!--/register-req-->
+
+		<div class="shopper-informations">
+			<div class="row">
+
+				<div class="col-sm-12 clearfix">
+					<div class="bill-to">
+						<p>Shipping Details</p>
+						<form method="post" action="/shop/checkout/"> {% csrf_token %}
+							<input type="hidden" name="itemsJson" id="itemsJson" required>
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label for="name">Name</label>
+									<input type="text" name="name" id="name" class="form-control" required>
+								</div>
+
+								<div class="form-group col-md-6">
+								  <label for="email">Email</label>
+								  <input type="email" name="email" id="email" class="form-control" required>
+								</div>
+
+							  </div>
+							<div class="form-group col-md-6">
+								<label for="phone">Contact Number</label>
+								<input type="number" name="phone" id="phone" class="form-control" required>
+							</div>
+
+							<div class="form-group col-md-6">
+								<label for="address1">Address1</label>
+								<input type="text" name="address1" id="address1" class="form-control" required>
+							</div>
+
+							<div class="form-group col-md-6">
+								<label for="address2">Address2</label>
+								<input type="text" name="address2" id="address2" class="form-control" >
+							</div>
+
+							<div class="form-group col-md-6">
+								<label for="country">Country</label>
+								<select name="country" id="country" class="form-control" required>
+									<option selected>Choose...</option>
+								</select>
+							</div>
+
+							<div class="form-group col-md-4">
+								<label for="state">State</label>
+								<select name="state" id="state" class="form-control" required>
+									<option selected>Choose...</option>
+								</select>
+							</div>
+							<div class="form-row">
+								<div class="form-group col-md-5">
+									<label for="city">City</label>
+									<select name="city" id="city" class="form-control" required>
+										<option selected>Choose...</option>
+									</select>
+								</div>
+
+								<div class="form-group col-md-2">
+								  <label for="zip_code">Zip</label>
+								  <input type="number" name="zip_code"  id="zip_code" class="form-control" required>
+								</div>
+							</div>
+
+							<div class="form-group col-md-12">
+								<center>
+									<button type="submit" class="btn btn-primary">Place Order</button>
+								</center>
+							</div>
+
+						</form>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+</section> <!--/#cart_items-->
+
+{% endblock %}
+
+// Addititional JS
+
+{% block js %}
+  <script type="text/javascript">
+    $(document).ready(function(){
+        // Countries
+        var country_arr = new Array("Select Country","AUSTRALIA","INDIA","NEW ZEALAND","USA","UAE","MAURITIUS");
+
+        $.each(country_arr, function (i, item) {
+            $('#country').append($('<option>', {
+                value: i,
+                text : item,
+            }, '</option>' ));
+        });
+
+        // States
+        var s_a = new Array();
+        s_a[0]="Select State";
+        s_a[1]="Select State|QUEENSLAND|VICTORIA";
+        s_a[2]="Select State|ANDHRAPRADESH|KARNATAKA|TAMILNADU|DELHI|GOA|W-BENGAL|GUJARAT|MADHYAPRADESH|MAHARASHTRA|RAJASTHAN";
+        s_a[3]="Select State|AUCKLAND";
+        s_a[4]="Select State|NEWJERSEY|ILLINOIS";
+        s_a[5]="Select State|DUBAI";
+        s_a[6]="Select State|MAURITIUS";
+
+        // Cities
+        var c_a = new Array();
+        c_a['QUEENSLAND']="BRISBANE";
+        c_a['VICTORIA']="MELBOURNE";
+        c_a['ANDHRAPRADESH']="HYDERABAD";
+        c_a['KARNATAKA']="BANGLORE";
+        c_a['TAMILNADU']="CHENNAI";
+        c_a['DELHI']="DELHI";
+        c_a['GOA']="GOA";
+        c_a['W-BENGAL']="KOLKATA";
+        c_a['GUJARAT']="AHMEDABAD1|AHMEDABAD2|AHMEDABAD3|BARODA|BHAVNAGAR|MEHSANA|RAJKOT|SURAT|UNA";
+        c_a['MADHYAPRADESH']="INDORE|Gwalior";
+        c_a['MAHARASHTRA']="MUMBAI|PUNE";
+        c_a['RAJASTHAN']="ABU";
+        c_a['AUCKLAND']="AUCKLAND";
+        c_a['NEWJERSEY']="EDISON";
+        c_a['ILLINOIS']="CHICAGO";
+        c_a['MAURITIUS']="MAURITIUS";
+        c_a['DUBAI']="DUBAI";
+
+
+        $('#country').change(function(){
+            var c = $(this).val();
+            var state_arr = s_a[c].split("|");
+            $('#state').empty();
+            $('#city').empty();
+            if(c==0){
+                $('#state').append($('<option>', {
+                    value: '0',
+                    text: 'Select State',
+                }, '</option>'));
+            }else {
+                $.each(state_arr, function (i, item_state) {
+                    $('#state').append($('<option>', {
+                        value: item_state,
+                        text: item_state,
+                    }, '</option>'));
+                });
+            }
+            $('#city').append($('<option>', {
+                value: '0',
+                text: 'Select City',
+            }, '</option>'));
+        });
+
+        $('#state').change(function(){
+            var s = $(this).val();
+            if(s=='Select State'){
+                $('#city').empty();
+                $('#city').append($('<option>', {
+                    value: '0',
+                    text: 'Select City',
+                }, '</option>'));
+            }
+            var city_arr = c_a[s].split("|");
+            $('#city').empty();
+
+            $.each(city_arr, function (j, item_city) {
+                $('#city').append($('<option>', {
+                    value: item_city,
+                    text: item_city,
+                }, '</option>'));
+            });
+
+
+        });
+    });
+</script>
+<script>
+	if (localStorage.getItem('cart') == null) {
+		var cart = {};
+	} else {
+		cart = JSON.parse(localStorage.getItem('cart'));
+	}
+	console.log(cart);
+	var sum = 0;
+	if ($.isEmptyObject(cart)) {
+		// if object is empty
+		mystr = `<h5>Your cart is empty, please add some items to your cart before checking out! </h5><br>
+					<center><a class="btn btn-primary" href="/">Continue Shopping</a></center`
+					$('#items').append(mystr);
+	} else {
+	for(item in cart){
+		let name = cart[item][1];
+		let qty = cart[item][0];
+		sum = sum+qty;
+
+		mystr = `<tr>
+							<td class="cart_description">
+								<h4>${name}</h4>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									${qty}
+								</div>
+							</td>
+						</tr>`
+		$('#items').append(mystr);
+	}
+}
+document.getElementById('cart').innerHTML = sum;
+$('#itemsJson').val(JSON.stringify(cart));
+{% if thank %}
+alert('Thanks for ordering with us. Your order is is {{id}}. Use it to track your order using our order tracker');
+localStorage.clear();
+document.location = "/";
+{% endif %}
+</script>
+{% endblock %}
